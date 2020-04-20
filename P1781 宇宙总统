@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct president{
+	string num;
+	int id;
+	int lenth;
+}a[20 + 5];
+
+bool cmp(president x, president y){
+	if(x.lenth > y.lenth)
+		return true;
+	else if(x.lenth == y.lenth && x.num > y.num)
+		return true;
+		
+	return false;
+}
+
+int main(){
+	
+	int n;
+	cin >> n;
+	
+	for(int i = 1; i <= n; i++){
+		cin >> a[i].num;
+		a[i].id = i;
+		a[i].lenth = a[i].num.size();
+	}
+	
+	sort(a + 1, a + 1 + n, cmp);
+	
+	cout << a[1].id << endl << a[1].num << endl;
+	
+	return 0;
+}
