@@ -1,0 +1,46 @@
+#include <iostream>
+#include <cstdio>
+#include <cmath>
+#include <algorithm>
+#include <map>
+using namespace std;
+
+string s, tmp;
+int ans = 0, n, m;
+map < string, bool > pam;
+inline string read_str();
+
+int main() {
+	
+	cin >> n >> m;
+	getline( cin, tmp );
+	
+	for ( int i = 1 ; i <= n ; i++ ) {
+		s = read_str();
+		pam[s] = true;
+	}
+	
+	for ( int i = 1 ; i <= m ; i++ ) {
+		s = read_str();
+		if ( pam[s] ) {
+			ans++;
+		}
+	}
+	
+	cout << ans << endl;
+	
+	return 0;
+}
+
+inline string read_str() {
+	
+	string a, b;
+	cin >> b;
+	
+	while ( getchar() == ' ' ) {
+		cin >> a;
+		b += a;
+	}
+	
+	return b;
+}
