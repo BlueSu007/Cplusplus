@@ -24,39 +24,39 @@ int main () {
 
 inline void minDeque () {
 
-    int cnt1 = 1 , cnt2 = 0 ;
+    int head = 1 , tail = 0 ;
 
     for ( int i = 1 ; i <= n ; i++ ) {
-        while ( cnt1 <= cnt2 && que1[cnt1] + m <= i ) {
-            cnt1++ ;
+        while ( head <= tail && que1[head] + m <= i ) {
+            head++ ;
         }
-        while ( cnt1 <= cnt2 && a[i] < a[que1[cnt2]] ) {
-            cnt2-- ;
+        while ( head <= tail && a[i] < a[que1[tail]] ) {
+            tail-- ;
         }
 
-        que1[++cnt2] = i ;
+        que1[++tail] = i ;
         if ( i >= m ) {
-            printf ( "%d " , a[que1[cnt1]] ) ;
+            printf ( "%d " , a[que1[head]] ) ;
         }
     }
 }
 
 inline void maxDeque () {
     
-    int cnt1 = 1 , cnt2 = 0 ;
+    int head = 1 , tail = 0 ;
     printf ( "\n" ) ;
 
     for ( int i = 1 ; i <= n ; i++ ) {
-        while ( cnt1 <= cnt2 && que2[cnt1] + m <= i ) {
-            cnt1++ ;
+        while ( head <= tail && que2[head] + m <= i ) {
+            head++ ;
         }
-        while ( cnt1 <= cnt2 && a[i] > a[que2[cnt2]] ) {
-            cnt2-- ;
+        while ( head <= tail && a[i] > a[que2[tail]] ) {
+            tail-- ;
         }
 
-        que2[++cnt2] = i ;
+        que2[++tail] = i ;
         if ( i >= m ) {
-            printf ( "%d " , a[que2[cnt1]] ) ;
+            printf ( "%d " , a[que2[head]] ) ;
         }
     }
 }
