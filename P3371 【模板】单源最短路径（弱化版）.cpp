@@ -2,89 +2,70 @@
 #include <cstdio>
 #include <cmath>
 #include <algorithm>
-#include <queue>
 #include <climits>
+#include <queue>
 using namespace std;
 
+#define LEN 500005
+
 struct Edge {
-	int start , end , weight , next ;
-} edge[500000 + 5] ;
+    int nextn , endn , dis ;
+} edge[LEN] ;
 
-struct node {
-	int weight , now ;
-	inline bool operator < ( node tmp ) const {
-		return weight > tmp.weight ;
-	}
-} ;
-
-int a[10000 + 5] , vis[10000 + 5] , dis[10000 + 5] ;
-int cnt , n , m , s , x , y , z ;
-inline void input () ;
-inline void add ( int start , int end , int weight ) ;
-inline void init () ;
-inline void dijkstra () ;
-inline void output () ;
-
-priority_queue < node > q ;
+int n , m , s , u , v , w , cnt ;
+int distancen[LEN] , vis[LEN] , head[LEN] ;
+queue < int > que ;
+inline void addEdge ( int u , int v , int w ) ;
+inline void spfa () ;
 
 int main () {
 
-	input () ;
-	dijkstra () ;
-	output () ;
+    scanf ( "%d %d %d" , &n , &m , &s ) ;
+    for ( int i = 1 ; i <= m ; i++ ) {
+        scanf ( "%d %d %d" , &u , &v , &w ) ;
+        addEdge ( u , v , w ) ;
+    }
 
-	return 0 ;
+    spfa () ;
+
+    for ( int i = 1 ; i <= n ; i++ ) {
+        if ( s == i ) {
+            printf ( "0 " ) ;
+        }
+        else {
+            printf ( "%d " , distancen[i] ) ;
+        }
+    }
+
+    return 0 ;
 }
 
-inline void input () {
-	scanf ( "%d %d %d" , &n , &m , &s ) ;
-	for ( int i = 1 ; i <= m ; i++ ) {
-		scanf ( "%d %d %d" , &x , &y , &z ) ;
-		add ( x , y , z ) ;
-	}
+inline void addEdge ( int u , int v , int w ) {
+    edge[++cnt].nextn = head[u] ;
+    edge[cnt].endn = v ;
+    edge[cnt].dis = w ;
+    head[u] = cnt ;
 }
 
-inline void add ( int start , int end , int weight ) {
-	edge[++cnt].start = start ;
-	edge[cnt].end = end ;
-	edge[cnt].weight = weight ;
-	edge[cnt].next = a[start] ;
-	a[start] = cnt ;
-}
+inline void spfa () {
+    for ( int i = 1 ; i <= n ; i++ ) {
+        distancen[i] = INT_MAX ;
+        vis[i] = 0 ;
+    }
 
-inline void init () {
-	for ( int i = 1 ; i <= n ; i++ ) {
-		dis[i] = INT_MAX ;
-	}
-	dis[s] = 0 ;
-}
+    que.push (s) , distancen[s] = 0 , vis[s] = 1 ;
+    while ( ! que.empty () ) {
+        int u = que.front () ;
+        que.pop () , vis[u] = false ;
 
-inline void dijkstra () {
-	init () ;
-	q.push ( ( node ) { 0 , s } ) ;
-
-	while ( !q.empty () ) {
-		node x = q.top () ;
-		q.pop () ;
-		int start = x.now ;
-
-		if ( vis[start] ) {
-			continue ;
-		}
-		vis[start] = 1 ;
-
-		for ( int i = a[start] ; i ; i = edge[i].next ) {
-			int end = edge[i].end ;
-			if ( dis[end] > dis[start] + edge[i].weight ) {
-				dis[end] = dis[start] + edge[i].weight ;
-				q.push ( ( node ) { dis[end] , end } ) ;
-			}
-		}
-	}
-}
-
-inline void output () {
-	for ( int i = 1 ; i <= n ; i++ ) {
-		printf ( "%d " , dis[i] ) ;
-	}
+        for ( int i = head[u] ; i ; i = edge[i].nextn ) {
+            int v = edge[i].endn ;
+            if ( distancen[v] > distancen[u] + edge[i].dis ) {
+                distancen[v] = distancen[u] + edge[i].dis ;
+                if ( ! vis[v] ) {
+                    vis[v] = true , que.push (v) ;
+                }
+            }
+        }
+    }
 }
